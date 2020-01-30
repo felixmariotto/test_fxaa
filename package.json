@@ -1,0 +1,26 @@
+{
+  "name": "test_fxaa",
+  "version": "0.0.0",
+  "description": "a test page for fxaa shader in three.js",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/felixmariotto/test_fxaa.git"
+  },
+  "author": "felix mariotto",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/felixmariotto/test_fxaa/issues"
+  },
+  "homepage": "https://github.com/felixmariotto/test_fxaa#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
