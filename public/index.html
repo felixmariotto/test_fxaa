@@ -4,7 +4,7 @@
 		<title>three.js WebGL  - postprocessing - FXAA</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<link type="text/css" rel="stylesheet" href="main.css">
+		<link type="text/css" rel="stylesheet" href="./css/main.css">
 		<style>
 			body {
 				background-color: #fff;
@@ -22,6 +22,15 @@
 				bottom: 0px;
 			}
 		</style>
+
+		<script src="./libs/three.js"></script>
+
+		<script src="./libs/EffectComposer.js"></script>
+		<script src="./libs/RenderPass.js"></script>
+		<script src="./libs/ShaderPass.js"></script>
+		<script src="./libs/CopyShader.js"></script>
+		<script src="./libs/FXAAShader.js"></script>
+
 	</head>
 
 	<body>
@@ -34,14 +43,6 @@
 		</div>
 
 		<script type="module">
-
-			import * as THREE from '../build/three.module.js';
-
-			import { EffectComposer } from './jsm/postprocessing/EffectComposer.js';
-			import { RenderPass } from './jsm/postprocessing/RenderPass.js';
-			import { ShaderPass } from './jsm/postprocessing/ShaderPass.js';
-			import { CopyShader } from './jsm/shaders/CopyShader.js';
-			import { FXAAShader } from './jsm/shaders/FXAAShader.js';
 
 			var camera, scene, renderer, clock, group, container;
 
@@ -110,26 +111,26 @@
 
 				//
 
-				var renderPass = new RenderPass( scene, camera );
+				var renderPass = new THREE.RenderPass( scene, camera );
 
 				//
 
-				fxaaPass = new ShaderPass( FXAAShader );
+				fxaaPass = new THREE.ShaderPass( THREE.FXAAShader );
 
 				var pixelRatio = renderer.getPixelRatio();
 
 				fxaaPass.material.uniforms[ 'resolution' ].value.x = 1 / ( container.offsetWidth * pixelRatio );
 				fxaaPass.material.uniforms[ 'resolution' ].value.y = 1 / ( container.offsetHeight * pixelRatio );
 
-				composer1 = new EffectComposer( renderer );
+				composer1 = new THREE.EffectComposer( renderer );
 				composer1.addPass( renderPass );
 				composer1.addPass( fxaaPass );
 
 				//
 
-				var copyPass = new ShaderPass( CopyShader );
+				var copyPass = new THREE.ShaderPass( THREE.CopyShader );
 
-				composer2 = new EffectComposer( renderer );
+				composer2 = new THREE.EffectComposer( renderer );
 				composer2.addPass( renderPass );
 				composer2.addPass( copyPass );
 
