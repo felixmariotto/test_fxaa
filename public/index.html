@@ -92,7 +92,6 @@
 
 				renderer = new THREE.WebGLRenderer();
 				renderer.autoClear = false;
-				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( container.offsetWidth, container.offsetHeight );
 				container.appendChild( renderer.domElement );
 
@@ -127,17 +126,27 @@
 					x_rotation: 2,
 					y_rotation: 1,
 					z_rotation: 3,
-					z_pos: 0,
-					scale: 4
+					x_position: 0,
+					y_position: 0,
+					z_position: 0,
+					scale: 4,
+					pixel_ratio: "devicePixelRatio"
 				};
 
 				var gui = new dat.GUI();
 
-				gui.add( controller, 'x_rotation', -3.14, 3.14, 0.01 ).onChange( transform );
-				gui.add( controller, 'y_rotation', -3.14, 3.14, 0.01 ).onChange( transform );
-				gui.add( controller, 'z_rotation', -3.14, 3.14, 0.01 ).onChange( transform );
-				gui.add( controller, 'z_pos', -250, 250, 1 ).onChange( transform );
-				gui.add( controller, 'scale',  1, 10, 0.5 ).onChange( transform );
+				var rotation = gui.addFolder( 'rotation' );
+				var position = gui.addFolder( 'position' );
+				var misc = gui.addFolder( 'misc' );
+
+				rotation.add( controller, 'x_rotation', -3.14, 3.14, 0.01 ).onChange( transform );
+				rotation.add( controller, 'y_rotation', -3.14, 3.14, 0.01 ).onChange( transform );
+				rotation.add( controller, 'z_rotation', -3.14, 3.14, 0.01 ).onChange( transform );
+				position.add( controller, 'x_position', -250, 250, 1 ).onChange( transform );
+				position.add( controller, 'y_position', -250, 250, 1 ).onChange( transform );
+				position.add( controller, 'z_position', -250, 250, 1 ).onChange( transform );
+				misc.add( controller, 'scale',  1, 10, 0.5 ).onChange( transform );
+				misc.add( controller, 'pixel_ratio', [ "devicePixelRatio", "0.5", "1", "2", "4" ] ).onChange( transform );
 
 				function transform() {
 
@@ -147,9 +156,23 @@
 						controller.z_rotation,
 					);
 
-					mesh.position.z = controller.z_pos ;
+					mesh.position.set(
+						controller.x_position,
+						controller.y_position,
+						controller.z_position
+					);
 
 					mesh.scale.setScalar( controller.scale );
+
+					switch( controller.pixel_ratio ) {
+						case "devicePixelRatio" : renderer.setPixelRatio( window.devicePixelRatio ); break
+						case "0.5" : renderer.setPixelRatio( 0.5 ); break
+						case "1" : renderer.setPixelRatio( 1 ); break
+						case "2" : renderer.setPixelRatio( 2 ); break
+						case "4" : renderer.setPixelRatio( 4 ); break
+					};
+
+					
 
 				};
 
